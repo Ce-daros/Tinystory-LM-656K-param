@@ -1,0 +1,144 @@
+{
+  "version": "1.0",
+  "truncation": null,
+  "padding": null,
+  "added_tokens": [
+    {
+      "id": 0,
+      "content": "<unk>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": true,
+      "special": true
+    },
+    {
+      "id": 1,
+      "content": "<|start_story|>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": true,
+      "special": true
+    },
+    {
+      "id": 2,
+      "content": "<|end_story|>",
+      "single_word": false,
+      "lstrip": false,
+      "rstrip": false,
+      "normalized": true,
+      "special": true
+    }
+  ],
+  "normalizer": {
+    "type": "Sequence",
+    "normalizers": [
+      {
+        "type": "Prepend",
+        "prepend": "▁"
+      },
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": " "
+        },
+        "content": "▁"
+      }
+    ]
+  },
+  "pre_tokenizer": null,
+  "post_processor": {
+    "type": "TemplateProcessing",
+    "single": [
+      {
+        "SpecialToken": {
+          "id": "<|start_story|>",
+          "type_id": 0
+        }
+      },
+      {
+        "Sequence": {
+          "id": "A",
+          "type_id": 0
+        }
+      }
+    ],
+    "pair": [
+      {
+        "SpecialToken": {
+          "id": "<|start_story|>",
+          "type_id": 0
+        }
+      },
+      {
+        "Sequence": {
+          "id": "A",
+          "type_id": 0
+        }
+      },
+      {
+        "SpecialToken": {
+          "id": "<|start_story|>",
+          "type_id": 1
+        }
+      },
+      {
+        "Sequence": {
+          "id": "B",
+          "type_id": 1
+        }
+      }
+    ],
+    "special_tokens": {
+      "<|start_story|>": {
+        "id": "<|start_story|>",
+        "ids": [
+          1
+        ],
+        "tokens": [
+          "<|start_story|>"
+        ]
+      }
+    }
+  },
+  "decoder": {
+    "type": "Sequence",
+    "decoders": [
+      {
+        "type": "Replace",
+        "pattern": {
+          "String": "▁"
+        },
+        "content": " "
+      },
+      {
+        "type": "ByteFallback"
+      },
+      {
+        "type": "Fuse"
+      },
+      {
+        "type": "Strip",
+        "content": " ",
+        "start": 1,
+        "stop": 0
+      }
+    ]
+  },
+  "model": {
+    "type": "BPE",
+    "dropout": null,
+    "unk_token": "<unk>",
+    "continuing_subword_prefix": null,
+    "end_of_word_suffix": null,
+    "fuse_unk": true,
+    "byte_fallback": true,
+    "vocab": {
+      "<unk>": 0,
+      "<|start_story|>": 1,
+      "<|end_story|>": 2},
+    "merges": [
+    ]
+  }
+}
